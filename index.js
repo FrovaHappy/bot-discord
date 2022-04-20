@@ -1,28 +1,37 @@
+import * as fs from 'fs';
 import {token} from './config.js';
-import { Client, Intents } from 'discord.js';
-import deployCommands from './deploy-commands.js';
+import { Client, Collection, Intents } from 'discord.js';
 
-// Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+client.commands = new Collection();
 
-// When the client is ready, run this code (only once)
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const fileContent = await import(`./commands/${file}`);
+	const command = fileContent.default;
+	client.commands.set(command.data.name, command);
+}
+
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('Ready client!');
 });
-deployCommands();
+
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
-	const { commandName } = interaction;
+	const command = client.commands.get(interaction.commandName);
 
-	if (commandName === 'ping') {
-		await interaction.reply('Pong!');
-	} else if (commandName === 'server') {
-		await interaction.reply(`Server name: ${interaction.guild.name}\nTotal members: ${interaction.guild.memberCount}`);
-	} else if (commandName === 'user') {
-		await interaction.reply(`Your tag: ${interaction.user.tag}\nYour id: ${interaction.user.id}`);
+	if (!command) return;
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: '**Command error** *Daño critico recibido.  No fui hecho para esto ;-;', ephemeral: true });
 	}
 });
 
-// Login to Discord with your client's token
+import './deploy-commands.js';
 client.login(token);
