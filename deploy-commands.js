@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { clientId, token } from './config.js';
+import { clientId, guildId, token } from './config.js';
 
 let commands = [];
-const guildId = ['951875023868686336' , '925085954685956156'];
+
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
