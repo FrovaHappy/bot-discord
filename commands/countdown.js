@@ -3,7 +3,7 @@ import { timeOn } from './countdown/timeOn.js';
 import { timeOff } from './countdown/timeOff.js';
 
 
-export default {
+const countdown = {
     data: new SlashCommandBuilder()
         .setName('countdown')
         .setDescription('esta mas alpedo, pero no me deja quitarlo xd')
@@ -23,8 +23,7 @@ export default {
                     .setName('timerid')
                     .setRequired(true)
                     .setDescription('ID único en las respuestas de /countdown on')))
-        ,
-                
+    ,          
     async execute(interaction) {
         if (interaction.options.getSubcommand() === 'on') {
             let hours = interaction.options.getInteger('hours');
@@ -36,8 +35,6 @@ export default {
             const messageId = interaction.options.getString('timerid');
             timeOff(interaction, messageId)
         }
-
-
     },
-
-}
+};
+export default countdown;
