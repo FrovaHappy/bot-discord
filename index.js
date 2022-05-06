@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import {token} from './config.js';
+import config from './config.js';
 import { Client, Collection, Intents } from 'discord.js';
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -34,4 +34,4 @@ client.on('interactionCreate', async interaction => {
 });
 
 import './deploy-commands.js';
-client.login(token);
+client.login(config.DISCORD_TOKEN);

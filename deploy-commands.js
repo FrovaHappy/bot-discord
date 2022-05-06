@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { clientId, guildId, token } from './config.js';
+import config from './config.js';
 
 let commands = [];
 
@@ -14,16 +14,16 @@ for (const file of commandFiles) {
 	commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: '9' }).setToken(token);
+const rest = new REST({ version: '9' }).setToken(config.DISCORD_TOKEN);
 
 (async () => {
-	for (const guild of guildId) {
+	for (const guild of config.DISCORD_GUILD_ID) {
 		console.log('Registering Guild :',guild);
 		try {
 			console.log('···Started refreshing application (/) commands.');
 
 			await rest.put(
-				Routes.applicationGuildCommands(clientId, guild),
+				Routes.applicationGuildCommands(config.DISCORD_CLIENT_ID, guild),
 				{ body: commands },
 			);
 
