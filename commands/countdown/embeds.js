@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, MessageActionRow, MessageButton} from 'discord.js';
 
 export function send_OverflowValue(interaction, time){
     const message =`
@@ -20,7 +20,14 @@ export function send_timeInit (interaction, time, messageId){
         .setDescription(`el mensaje se enviara en \` ${time.hours} hs ${time.mins} mins \``)
         .setFooter({ text: (`TimerId: ${messageId}`)})
     ;
-    interaction.reply({ embeds: [embed] });
+    const row = new MessageActionRow()
+		.addComponents(
+            new MessageButton()
+                .setCustomId(`${messageId}`)
+                .setLabel('Primary')
+                .setStyle('DANGER'),
+	);
+    interaction.reply({ embeds: [embed], components: [row] });
 }
 export function send_timeFinish (interaction, messageId){
     const message =`

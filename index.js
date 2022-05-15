@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import config from './config.js';
 import { Client, Collection, Intents } from 'discord.js';
+import { isButton } from './isButton.js';
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
@@ -19,12 +20,11 @@ client.once('ready', () => {
 });
 
 client.on('interactionCreate', async interaction => {
+	isButton(interaction);
+	
 	if (!interaction.isCommand()) return;
-
 	const command = client.commands.get(interaction.commandName);
-
 	if (!command) return;
-
 	try {
 		await command.execute(interaction);
 	} catch (error) {
