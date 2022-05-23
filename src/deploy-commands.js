@@ -1,12 +1,12 @@
 import * as fs from 'fs';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import config from './config.js';
+import config from '../config.js';
 
 let commands = [];
 
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const fileContent = await import(`./commands/${file}`);
@@ -30,6 +30,7 @@ const rest = new REST({ version: '9' }).setToken(config.DISCORD_TOKEN);
 		} catch (error) {
 			console.error(error);
 		}
+		return
 	}
 	
 	for (const guild of config.DISCORD_GUILD_ID) {

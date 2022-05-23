@@ -3,9 +3,9 @@ import {
     send_OverflowValue, 
     send_timeInit,
     send_timeFinish
-} from './embeds.js';
+} from './messages/timeOn.js';
 
-import { timeIds } from '../../config.js';
+import { timeIds } from '../../../config.js';
 
 export function timeOn(interaction, hours,mins){
     let time = getTime(hours,mins);

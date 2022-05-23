@@ -23,8 +23,8 @@ export function send_timeInit (interaction, time, messageId){
     const row = new MessageActionRow()
 		.addComponents(
             new MessageButton()
-                .setCustomId(`${messageId}`)
-                .setLabel('Primary')
+                .setCustomId('timeDeleted')
+                .setLabel('Stop.')
                 .setStyle('DANGER'),
 	);
     interaction.reply({ embeds: [embed], components: [row] });
@@ -40,18 +40,4 @@ export function send_timeFinish (interaction, messageId){
         .setDescription(message)
         .setFooter({ text: (`TimerId: ${messageId}`)});
     interaction.channel.send({ embeds: [embed] });
-}
-export function send_timeDeleted (interaction, clientMessageId){
-    const embed = new MessageEmbed()
-        .setTitle('Un countdown menos en mis filas:')
-        .setColor('##FFA233')
-        .setDescription(`el timerId \` ${clientMessageId} \` se elimino correctamente.`);
-    interaction.reply({ embeds: [embed] });
-}
-export function send_errClientMessageId (interaction, clientMessageId){
-    const embed = new MessageEmbed()
-        .setTitle('Eh fallado:')
-        .setColor('##FFA233')
-        .setDescription(`el timerId \` ${clientMessageId} \` enviado ya expiro o ne encuentra.`);
-    interaction.reply({ embeds: [embed] });
 }

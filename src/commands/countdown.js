@@ -1,6 +1,5 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { timeOn } from './countdown/timeOn.js';
-import { timeOff } from './countdown/timeOff.js';
 
 
 const countdown = {
@@ -31,10 +30,7 @@ const countdown = {
             
             timeOn(interaction, hours, mins);
         };
-        if (interaction.options.getSubcommand() === 'off') {
-            const messageId = interaction.options.getString('timerid');
-            timeOff(interaction, messageId)
-        }
+       
     },
 };
 export default countdown;
