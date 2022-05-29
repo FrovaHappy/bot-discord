@@ -8,4 +8,4 @@ package-lock.json
 .env
 
 # command ignore
-commands/log.js
+src/commands/log.js
