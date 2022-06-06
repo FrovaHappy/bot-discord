@@ -1,10 +1,10 @@
 import { MessageEmbed, MessageActionRow, MessageButton } from "discord.js";
+import { buildersDbChange } from "../utils/builderDbchange.js";
 
-export function send_withoutParameters(interaction, queryResult) {
+export function send_withoutParameters(interaction, countdownQuery) {
   let description = `
     Mis valores globales son:
-    > descripcion: \`${queryResult.description}\`
-    > role: \`<@&${queryResult.role}>\`
+    ${buildersDbChange(countdownQuery)}
   `;
   const embed = new MessageEmbed()
     .setTitle("Nada para hacer:")
@@ -12,13 +12,10 @@ export function send_withoutParameters(interaction, queryResult) {
     .setDescription(description);
   interaction.reply({ embeds: [embed] });
 }
-export function send_dataSaved(interaction, queryResult, countdownQuery) {
-  const descriptionChanged = ":black_large_square:";
-  const roleChanged = ":black_large_square:";
+export function send_dataSaved(interaction, countdownQuery) {
   let description = `
     Mis valores globales son:
-    > ${descriptionChanged} descripcion: \`${queryResult.description}\`
-    > ${roleChanged} role: \`<@&${queryResult.role}>\`
+    ${buildersDbChange(countdownQuery)}
   `;
   const embed = new MessageEmbed()
     .setTitle("Datos guardados:")

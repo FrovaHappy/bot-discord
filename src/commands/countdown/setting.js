@@ -22,11 +22,11 @@ export async function setCountdownData(interaction, options) {
   const queryResult = await countdownQuery.setData(options);
   console.log(countdownQuery);
   if (countdownQuery.valuesUpdated === 0) {
-    send_withoutParameters(interaction, queryResult);
+    send_withoutParameters(interaction, countdownQuery);
     return;
   }
   if (queryResult) {
-    send_dataSaved(interaction, queryResult, countdownQuery);
+    send_dataSaved(interaction, countdownQuery);
   } else {
     interaction.reply({ content: "error en database" });
   }
