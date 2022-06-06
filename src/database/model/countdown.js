@@ -6,6 +6,9 @@ const schema = new Schema(
     guild: { type: String, required: true },
     description: { type: String },
     role: { type: String },
+    channel: { type: String},
+    hours: { type: Number},
+    mins: { type: Number}
   },
   { timestamps: true }
 );

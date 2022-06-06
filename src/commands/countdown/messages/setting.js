@@ -12,15 +12,9 @@ export function send_withoutParameters(interaction, queryResult) {
     .setDescription(description);
   interaction.reply({ embeds: [embed] });
 }
-export function send_dataSaved(interaction, queryResult, update) {
-  const descriptionChanged =
-    queryResult.description === update.description
-      ? ":ballot_box_with_check:"
-      : ":black_large_square:";
-  const roleChanged =
-    queryResult.role === update.role
-      ? ":ballot_box_with_check:"
-      : ":black_large_square:";
+export function send_dataSaved(interaction, queryResult, countdownQuery) {
+  const descriptionChanged = ":black_large_square:";
+  const roleChanged = ":black_large_square:";
   let description = `
     Mis valores globales son:
     > ${descriptionChanged} descripcion: \`${queryResult.description}\`

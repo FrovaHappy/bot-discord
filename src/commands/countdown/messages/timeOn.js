@@ -8,7 +8,7 @@ async function globalProperties(interaction) {
 export function send_OverflowValue(interaction, time) {
   const description = `
     El tiempo es mayor a las \` 6 hs.\` 
-    Tiempo introducido: \` ${time.hours} hs ${time.mins} mins \`
+    Tiempo introducido: \` ${time.convertHours(time.hours)} hs ${time.convertMinutes(time.mins)} mins \`
   `;
   const embed = new MessageEmbed()
     .setTitle("Tiempo Invalido:")
@@ -21,7 +21,7 @@ export function send_timeInit(interaction, time, messageId) {
     .setTitle("Tiempo en marcha:")
     .setColor("#00ff00")
     .setDescription(
-      `el mensaje se enviara en \` ${time.hours} hs ${time.mins} mins \``
+      `el mensaje se enviara en \` ${time.timeDefaultOrHours()} hs ${time.convertMinutes(time.mins)} mins \``
     )
     .setFooter({ text: `TimerId: ${messageId}` });
   const row = new MessageActionRow().addComponents(
@@ -34,7 +34,6 @@ export function send_timeInit(interaction, time, messageId) {
 }
 export async function send_timeFinish(interaction, messageId) {
   let queryProperties = await globalProperties(interaction);
-  queryProperties = (queryProperties === null) ? {} : queryProperties;
   let description = `
     ¡Después de una larga espera, llega el momento!
     \` ${interaction.user.username}\` ¿quieres casarte conmigo?

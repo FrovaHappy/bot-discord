@@ -1,6 +1,6 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { timeOn } from './countdown/timeOn.js';
-import { setCountdownData } from './countdown/setting.js';
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { timeOn } from "./countdown/timeOn.js";
+import { setCountdownData } from "./countdown/setting.js";
 
 const countdown = {
   data: new SlashCommandBuilder()
@@ -9,11 +9,15 @@ const countdown = {
     .addSubcommand((subcommand) =>
       subcommand
         .setName("start")
-        .setDescription("Inicia el countdown (por defecto 2hs y editado un max. de 8hs ).")
+        .setDescription(
+          "Inicia el countdown (por defecto 2hs y editado un max. de 8hs )."
+        )
         .addIntegerOption((option) =>
           option
             .setName("hours")
-            .setDescription("Agrega cuantas horas quieres que espere. (solo num. enteros)")
+            .setDescription(
+              "Agrega cuantas horas quieres que espere. (solo num. enteros)"
+            )
         )
         .addIntegerOption((option) =>
           option
@@ -24,13 +28,11 @@ const countdown = {
         )
         .addStringOption((option) =>
           option
-            .setName('description')
-            .setDescription('personaliza el mensaje de respuesta.')
+            .setName("description")
+            .setDescription("personaliza el mensaje de respuesta.")
         )
-        .addBooleanOption((option)=>
-          option
-            .setName('mention')
-            .setDescription('te mensiono al finalizar?')
+        .addBooleanOption((option) =>
+          option.setName("mention").setDescription("te mensiono al finalizar?")
         )
     )
     .addSubcommand((subcommand) =>
@@ -42,27 +44,55 @@ const countdown = {
             .setName("set_description")
             .setDescription("Que quieres que le diga a todos?")
         )
-        .addRoleOption((option)=>
+        .addRoleOption((option) =>
           option
-            .setName('set_role')
-            .setDescription('Lo usare para mensionar a todo aquel con dicho rol.')
+            .setName("set_role")
+            .setDescription(
+              "Lo usare para mensionar a todo aquel con dicho rol."
+            )
         )
+        .addChannelOption((option) =>
+        option
+          .setName("set_channel")
+          .setDescription(
+            "En que lugar voy a funcionar."
+          )
+      )
+      .addIntegerOption((option) =>
+          option
+            .setName("set_hours")
+            .setDescription(
+              "Cambia los horas por defecto."
+            )
+        )
+        .addIntegerOption((option) =>
+        option
+          .setName("set_mins")
+          .setDescription(
+            "Cambia los minutos por defecto."
+          )
+      )
     ),
   async execute(interaction) {
-
+    let options = {};
     if (interaction.options.getSubcommand() === "start") {
-      let hours = interaction.options.getInteger("hours");
-      let mins = interaction.options.getInteger("mins");
+      options.hours = interaction.options.getInteger("hours");
+      options.mins = interaction.options.getInteger("mins");
+      options.description = interaction.options.getString("description");
+      options.mention = interaction.options.getBoolean("mention");
 
-      timeOn(interaction, hours, mins);
+      timeOn(interaction, options);
       return;
     }
-    if (interaction.options.getSubcommand() === "setting"){
-      let options = {};
-      options.setDescription= interaction.options.getString("set_description");
+    if (interaction.options.getSubcommand() === "setting") {
+      options.setDescription = interaction.options.getString("set_description");
       options.setRole = interaction.options.getRole("set_role");
-      
-      setCountdownData(interaction, options)      
+      options.setChannel = interaction.options.getChannel("set_channel");
+      options.setHours = interaction.options.getInteger("set_hours");
+      options.setMins = interaction.options.getInteger("set_mins")
+
+      setCountdownData(interaction, options);
+      return;
     }
   },
 };
