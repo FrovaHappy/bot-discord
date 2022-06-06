@@ -7,8 +7,7 @@ export async function setCountdownData(interaction, options) {
   const time = new BuilderTime(options.setHours, options.setMins);
   console.log(time);
   if (!permissions) {
-    let oldi = interaction.reply("Careses de permisos de administrator. ");
-    console.log(oldi);
+    interaction.reply("Careses de permisos de administrator. ");
     return;
   }
   if (time.isInvalidTime()) {
@@ -19,15 +18,10 @@ export async function setCountdownData(interaction, options) {
     return;
   }
   let countdownQuery = new CountdownQuery(interaction);
-  const queryResult = await countdownQuery.setData(options);
-  console.log(countdownQuery);
+  await countdownQuery.setData(options);
   if (countdownQuery.valuesUpdated === 0) {
     send_withoutParameters(interaction, countdownQuery);
     return;
   }
-  if (queryResult) {
-    send_dataSaved(interaction, countdownQuery);
-  } else {
-    interaction.reply({ content: "error en database" });
-  }
+  send_dataSaved(interaction, countdownQuery);
 }

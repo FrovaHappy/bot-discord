@@ -24,7 +24,7 @@ export class CountdownQuery {
     this.data = query;
     this.valuesUpdated = Object.values(update).length;
     this.hasUpdated = this.#hasUpdated(query, update);
-    return query;
+    return this;
   }
   #buildersUpdate(options) {
     let result = {};
