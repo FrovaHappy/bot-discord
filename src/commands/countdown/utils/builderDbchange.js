@@ -2,11 +2,9 @@ export function buildersDbChange(countdownQuery) {
   const hasUpdated = countdownQuery.hasUpdated;
   const data = countdownQuery.data;
   const change = Object.keys(keysIgnore(hasUpdated));
-  let result = ``;
-  if (change.length) {
-    result = "> creo que estoy vacio.";
-    return result;
-  }
+  let result = "> creo que estoy vacio.";
+  if (change.length === 0) return result;
+  result = ``;
   for (const key of change) {
     if (hasUpdated[key])
       result += `> :white_medium_small_square: ${key}: \`${data[key]}\` \n`;
