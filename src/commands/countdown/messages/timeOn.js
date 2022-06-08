@@ -1,5 +1,6 @@
 import { MessageEmbed, MessageActionRow, MessageButton } from "discord.js";
 import { CountdownQuery } from "../../../database/countdown.js";
+import {BuilderMngFinish} from "../utils/builderMsgFinish.js";
 
 async function globalProperties(interaction) {
   const countdownQuery = new CountdownQuery(interaction);
@@ -32,18 +33,13 @@ export function send_timeInit(interaction, time, messageId) {
   );
   interaction.reply({ embeds: [embed], components: [row] });
 }
-export async function send_timeFinish(interaction, messageId) {
+export async function send_timeFinish(interaction, options, messageId) {
   let queryProperties = await globalProperties(interaction);
-  let description = `
-    ¡Después de una larga espera, llega el momento!
-    \` ${interaction.user.username}\` ¿quieres casarte conmigo?
-  `;
-  description = (queryProperties.description) ? queryProperties.description : description;
-
+  const buildMessage = new BuilderMngFinish(options, queryProperties)
   const embed = new MessageEmbed()
     .setTitle("Tiempo finalizado:")
     .setColor("#00ff00")
-    .setDescription(description)
+    .setDescription(buildMessage.description)
     .setFooter({ text: `TimerId: ${messageId}` });
-  interaction.channel.send({ embeds: [embed] });
+  interaction.channel.send({content:buildMessage.content ,embeds: [embed] });
 }
