@@ -11,6 +11,7 @@ export class CountdownQuery {
 
   async getData() {
     const query = await countdownModel.findOne({ guild: this.#guild });
+    this.data = query;
     return query || {};
   }
   async setData(options = {}) {

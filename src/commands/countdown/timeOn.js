@@ -6,9 +6,13 @@ import {
 } from "./messages/timeOn.js";
 import { BuilderTime } from "./utils/builderTime.js";
 import { timeIds } from "../../../config.js";
+import { DataControler } from "./utils/dataControler.js";
 
-export function timeOn(interaction, options) {
-  const time = new BuilderTime(options.hours, options.mins);
+export async function timeOn(interaction, options) {
+  let dataControler =  new DataControler(interaction, options);
+  await dataControler.getData();
+  console.log(dataControler);
+  const time = new BuilderTime(dataControler.time.hours, dataControler.time.mins);
   console.log(options);
   if (time.isInvalidTime()) {
     send_OverflowValue(interaction, time);
@@ -17,7 +21,6 @@ export function timeOn(interaction, options) {
   const messageId = randomUUID();
   const timeOut = startSetTimeout(interaction, time, messageId, options);
   timeIds.set(messageId, timeOut);
-
   send_timeInit(interaction, time, messageId);
 }
 function startSetTimeout(interaction, time, messageId, options) {
