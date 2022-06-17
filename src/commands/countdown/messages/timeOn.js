@@ -1,12 +1,8 @@
 import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
-import { CountdownQuery } from "../../../database/countdown.js";
-import { BuilderMngFinish } from "../utils/builderMsgFinish.js";
+import { builderContent } from "../utils/builderContent.js";
 import {formattingText} from "../utils/formattingText.js"
 
-async function globalProperties(interaction) {
-  const countdownQuery = new CountdownQuery(interaction);
-  return countdownQuery.getData();
-}
+
 export function send_OverflowValue(interaction, time) {
   const description = `
     El tiempo es mayor a las \` 6 hs.\` 
@@ -35,14 +31,13 @@ export function send_timeInit(interaction, time, messageId) {
   interaction.reply({ embeds: [embed], components: [row] });
 }
 export async function send_timeFinish(interaction, data, messageId) {
-  let queryProperties = await globalProperties(interaction);
-  const buildMessage = new BuilderMngFinish(data, queryProperties)
+  const content = builderContent(data);
   const embed = new MessageEmbed()
     .setTitle("Tiempo finalizado:")
     .setColor("#00ff00")
     .setDescription(data.description.content)
     .setFooter({ text: `TimerId: ${messageId}` })
   ;
-  const textfilter = formattingText(data,[embed])
-  interaction.channel.send({content:buildMessage.content ,embeds: [textfilter[0]] });
+  const textfilter = formattingText(data,[content, embed])
+  interaction.channel.send({content:textfilter[0],embeds: [textfilter[1]] });
 }
