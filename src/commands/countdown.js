@@ -80,7 +80,7 @@ const countdown = {
       options.mins = interaction.options.getInteger("mins");
       options.description = interaction.options.getString("description");
       options.mention = interaction.options.getBoolean("mention");
-      options.role = interaction.user.id;
+      options.role = interaction.user.id;//deprecate
 
       timeOn(interaction, options);
       return;

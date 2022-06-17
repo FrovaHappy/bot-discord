@@ -6,27 +6,26 @@ import {
 } from "./messages/timeOn.js";
 import { BuilderTime } from "./utils/builderTime.js";
 import { timeIds } from "../../../config.js";
-import { DataControler } from "./utils/dataControler.js";
+import { dataControler } from "./utils/dataControler.js";
 
 export async function timeOn(interaction, options) {
-  let dataControler =  new DataControler(interaction, options);
-  await dataControler.getData();
-  console.log(dataControler);
-  const time = new BuilderTime(dataControler.time.hours, dataControler.time.mins);
+  let data = await dataControler(interaction, options);
+  console.log(data);
+  const time = new BuilderTime(data.time.hours, data.time.mins);
   console.log(options);
   if (time.isInvalidTime()) {
     send_OverflowValue(interaction, time);
     return;
   }
   const messageId = randomUUID();
-  const timeOut = startSetTimeout(interaction, time, messageId, options);
+  const timeOut = startSetTimeout(interaction, time, messageId, data);
   timeIds.set(messageId, timeOut);
   send_timeInit(interaction, time, messageId);
 }
-function startSetTimeout(interaction, time, messageId, options) {
+function startSetTimeout(interaction, time, messageId, data) {
   let rest = setTimeout(()=> {
     timeIds.delete(messageId);
-    send_timeFinish(interaction, options, messageId);
+    send_timeFinish(interaction, data, messageId);
   }, time.totalTime);
   return rest;
 }
