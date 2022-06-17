@@ -7,18 +7,18 @@ export class GetRole {
     this.role = this.#builderRole();
   }
   #builderRole() {
-    if (this.#dataGuild.role) {
-      return {
-        type: "admin",
-        id: this.#dataGuild.role,
-        mention: this.#dataUser.mention,
-      };
-    }
     if (this.#dataUser.mention) {
       return {
         type: "user",
         id: "",
         mention: this.#dataUser.mention
+      };
+    }
+    if (this.#dataGuild.role) {
+      return {
+        type: "admin",
+        id: this.#dataGuild.role,
+        mention: this.#dataUser.mention,
       };
     }
     return {

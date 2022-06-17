@@ -7,16 +7,16 @@ export class GetDescription {
     this.description = this.#builderDescription();
   }
   #builderDescription() {
-    if (this.#dataGuild.description) {
-      return {
-        type: "admin",
-        content: this.#dataGuild.description,
-      };
-    }
     if (this.#dataUser.description) {
       return {
         type: "user",
         content: this.#dataUser.description,
+      };
+    }
+    if (this.#dataGuild.description) {
+      return {
+        type: "admin",
+        content: this.#dataGuild.description,
       };
     }
     return {

@@ -4,7 +4,7 @@ export function formattingText(data, formattedText = []) {
     let toformat = JSON.stringify(arrayElement);
     toformat = toformat
       .replace("<user:id>", `<@${data.user.id}>`)
-      .replace("<role:id>", `<${data.role.id}>`);
+      .replace("<role:id>", `<@&${data.role.id}>`);
     result.push(JSON.parse(toformat));
   });
   return result;
