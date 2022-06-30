@@ -4,8 +4,9 @@ import 'dotenv/config';
 const token = process.env.DISCORD_TOKEN;
 const clientId = process.env.DISCORD_CLIENT_ID;
 const guildId = ['951875023868686336'];
-export let timeIds = new Map();
 const guildGlobal = process.env.GUILD_GLOBAL || false;
+const port = process.env.PORT || 5000
+export let timeIds = new Map()
 
 let getDbHost = process.env.MONGODB_HOST || "mongodb://localhost:27017/<database>";
 getDbHost = getDbHost
@@ -17,7 +18,8 @@ const configurations = {
     DISCORD_GUILD_ID: guildId,
     DISCORD_GUILD_GLOBAL: guildGlobal,
     DISCORD_TOKEN: token,
-    MONGODB_HOST: getDbHost
+    MONGODB_HOST: getDbHost,
+    PORT: port
 };
 
 export default configurations
