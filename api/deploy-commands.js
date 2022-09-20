@@ -1,70 +1,34 @@
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
 import config from '../config.js';
 import searchCommands from './util/searchCommands.js';
+import filterCommands from './util/filterCommands.js';
+import {
+  putApplicationCommands,
+  putApplicationGuildsCommands,
+  deleteApplicationCommands,
+  deleteApplicationGuildsCommands,
+} from "./util/execute.js"
 
-const commands = searchCommands()
-const rest = new REST({ version: '9' }).setToken(config.DISCORD_TOKEN);
+const applicationId = config.DISCORD_CLIENT_ID
+const guildsIds = config.DISCORD_GUILD_ID
 
-(async () => {
-	if (config.DISCORD_GUILD_GLOBAL){
-		try {
-			config.DISCORD_GUILD_ID.map(guildId => deleteGuildCommands(guildId))
-			console.log('refreshing (/) commands in Global.');
-			const url_applicationCommands = Routes.applicationCommands(
-				config.DISCORD_CLIENT_ID
-			);
-			await rest.put(	url_applicationCommands, { body: commands });
-			console.log('(/) commands ··· Ok.');
-		} catch (error) {
-			console.error(error);
-		}
-		return
-	}
-	await deleteCommands()
-	config.DISCORD_GUILD_ID.map(guild => {
-		try {
-			console.log(`(/) refreshing  commands in ${guild}.`);
-			rest.put(
-				Routes.applicationGuildCommands(config.DISCORD_CLIENT_ID, guild),
-				{ body: commands },
-			);
-			console.log('(/) refreshing ··· OK');
-		} catch (error) {
-			console.error(error);
-		}
-	})
-})();
-async function deleteCommands() {
-  console.log("(/) deleting all commands");
-  const url_applicationCommands = Routes.applicationCommands(
-    config.DISCORD_CLIENT_ID
-  );
-  const query = await rest.get(url_applicationCommands);
+const filterPremium = ['countdown']
+const filterPublic = []
+const filterDev = ['log'];
 
-  query.map((command) => {
-    const url_applicationCommand = Routes.applicationCommand(
-      config.DISCORD_CLIENT_ID,
-      command.id
-    );
-    rest.delete(url_applicationCommand);
-  });
-}
-async function deleteGuildCommands(guildId) {
-  console.log("(/) deleting all guild commands");
-  const url_applicationGuildCommands = Routes.applicationGuildCommands(
-    config.DISCORD_CLIENT_ID,
-    guildId
-  );
-  const query = await rest.get(url_applicationGuildCommands);
+export async function deployCommands(){
+  let result = {}
+  const commands = await searchCommands()
+  const commandsPremium = filterCommands(filterPremium, commands);
+  const commandsGlobal =  filterCommands(filterPublic, commands);
+  const commandsDeveloper =  filterCommands(filterDev, commands);
 
-  await query.map((command) => {
-    const url_applicationGuildCommand = Routes.applicationGuildCommand(
-      config.DISCORD_CLIENT_ID,
-      guildId,
-      command.id
-    );
-    rest.delete(url_applicationGuildCommand);
-  });
-  console.log("(/) deleting ... OK");
+  //public commands
+  result.servPublic = await putApplicationCommands( applicationId, commandsGlobal )
+  if ( !result.servPublic.done ) {
+    result.servPublicdeleted = await deleteApplicationCommands( applicationId )
+  }
+  result.servDev = await putApplicationGuildsCommands( applicationId, guildsIds, commandsDeveloper)
+  result.deleteservDev= await deleteApplicationGuildsCommands( applicationId, guildsIds)
+  
+  console.log(result)
 }

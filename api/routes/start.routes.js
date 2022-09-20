@@ -6,6 +6,7 @@ router.get('/', async (_req, res) => {
     await import('../deploy-commands.js')
     res.status(201).json({message:'Desplegado con exíto.'})
   } catch (e) {
+    console.error(e)
     res.status(501).json({message:'error al desplegar los slash command.'})
   }
 })

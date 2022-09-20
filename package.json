@@ -8,7 +8,7 @@
     "start": "node index.js",
     "start:api": "node api/index.js",
     "dev": " nodemon index.js",
-    "serve": "nodemon api/index.js"
+    "dev:api": "nodemon api/index.js"
   },
   "keywords": [],
   "author": "",
