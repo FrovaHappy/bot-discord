@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageButton, MessageEmbed } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, EmbedBuilder } from "discord.js";
 import { builderContent } from "../utils/builderContent.js";
 import {formattingText} from "../utils/formattingText.js"
 
@@ -8,22 +8,22 @@ export function send_OverflowValue(interaction, time) {
     El tiempo es mayor a las \` 6 hs.\` 
     Tiempo introducido: \` ${time.convertHours(time.hours)} hs ${time.convertMinutes(time.mins)} mins \`
   `;
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle("Tiempo Invalido:")
     .setColor("#FFA233")
     .setDescription(description);
   interaction.reply({ embeds: [embed] });
 }
 export function send_timeInit(interaction, time, messageId) {
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle("Tiempo en marcha:")
     .setColor("#00ff00")
     .setDescription(
       `el mensaje se enviara en \` ${time.timeDefaultOrHours()} hs ${time.convertMinutes(time.mins)} mins \``
     )
     .setFooter({ text: `TimerId: ${messageId}` });
-  const row = new MessageActionRow().addComponents(
-    new MessageButton()
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
       .setCustomId("timeDeleted")
       .setLabel("Stop.")
       .setStyle("DANGER")
@@ -32,7 +32,7 @@ export function send_timeInit(interaction, time, messageId) {
 }
 export async function send_timeFinish(interaction, data, messageId) {
   const content = builderContent(data);
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle("Tiempo finalizado:")
     .setColor("#00ff00")
     .setDescription(data.description.content)

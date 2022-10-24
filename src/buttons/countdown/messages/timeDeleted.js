@@ -1,17 +1,17 @@
-import { MessageEmbed, MessageActionRow, MessageButton} from 'discord.js';
-const buttonStop= new MessageButton()
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder} from 'discord.js';
+const buttonStop= new ButtonBuilder()
     .setCustomId('timeDeleted')
     .setLabel('Stop.')
-    .setStyle('DANGER')
+    .setStyle('Danger')
     .setDisabled(true)
 ;
-const row = new MessageActionRow().addComponents(buttonStop);
+const row = new ActionRowBuilder().addComponents(buttonStop);
 
 export function send_timeDeleted (interaction, clientMessageId){
     const descripcion=`
         el timerId \` ${clientMessageId} \` se elimino correctamente.
     `;
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle('Un countdown menos en mis filas:')
         .setColor('#FFA233')
         .setDescription(descripcion);
@@ -20,7 +20,7 @@ export function send_timeDeleted (interaction, clientMessageId){
 export function send_errClientMessageId (interaction, clientMessageId){
     let iOld = interaction;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle('Eh fallado:')
         .setColor('#FFA233')
         .setDescription(`el timerId \` ${clientMessageId} \` ya expiro o no se encuentra.`)

@@ -1,9 +1,14 @@
 import * as fs from 'fs';
 import config from '../config.js';
-import { Client, Collection, Intents } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { isButton } from './isButton.js';
 import { isCommand } from './isCommand.js';
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.MessageContent,
+	GatewayIntentBits.GuildMembers,
+] });
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
