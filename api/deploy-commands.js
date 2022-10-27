@@ -28,7 +28,7 @@ export async function deployCommands(){
     result.servPublicdeleted = await deleteApplicationCommands( applicationId )
   }
   result.servDev = await putApplicationGuildsCommands( applicationId, guildsIds, commandsDeveloper)
-  result.deleteservDev= await deleteApplicationGuildsCommands( applicationId, guildsIds)
+  //result.deleteservDev= await deleteApplicationGuildsCommands( applicationId, guildsIds)
   
-  console.log(result)
+  return result
 }
