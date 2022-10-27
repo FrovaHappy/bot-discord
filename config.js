@@ -8,10 +8,7 @@ const guildId = ['951875023868686336']
 const port = process.env.PORT || 5000
 export let timeIds = new Map()
 
-let getDbHost = process.env.MONGODB_HOST || "mongodb://localhost:27017/<database>";
-getDbHost = getDbHost
-    .replace('<database>', process.env.MONGODB_NAME)
-    .replace('<password>', process.env.MONGODB_PASSWORD);
+let getDbHost = process.env.MONGODB_HOST ?? 'mongodb://localhost:27017/bot_discord_broken'
 
 const configurations = {
     DISCORD_CLIENT_ID: clientId,
