@@ -7,23 +7,29 @@ import { SlashCommandBuilder } from '@discordjs/builders'
 const deletingCommands = new SlashCommandBuilder().setName('delete-commands').setDescription('Delete')
 
 const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN)
-
-export async function deleteCommand(applicationId, guildsId) {
+/**
+ * @param {string} fullroute route generaded by the Roues Types API
+ * @returns An string with the result done successfully or where failed
+ */
+export async function deleteCommand(fullroute) {
+  let status
   await rest
-    .put(Routes.applicationGuildCommands(applicationId, guildsId), { body: [deletingCommands.toJSON()] })
+    .put(fullroute, { body: [deletingCommands.toJSON()] })
     .catch((e) => {
-      console.log('en el put')
+      status = "Delete command: error in the put operation"
     })
-  const commandfodeleting = await rest.get(Routes.applicationGuildCommands(applicationId, guildsId)).catch((e) => {
-    console.log('en el get')
+  const commandfodeleting = await rest.get(fullroute).catch((e) => {
+    status = "Delete command: error in the get operation"
   })
   await Promise.all(
     commandfodeleting.map((command) => {
-      rest.delete(Routes.applicationGuildCommand(applicationId, guildsId, command.id)).catch((e) => {
-        console.log('en el delete')
+      const fullrouteCommandId = fullroute + '/' + command.id
+      rest.delete(fullrouteCommandId).catch((e) => {
+        status = "Delete command: error in the delete operation"
       })
     })
   )
+  return status ?? "command deleted successfully"
 }
 /**
  * Publica en los sevidores privados ej. (serv premium y dev)
@@ -76,7 +82,7 @@ export async function deleteApplicationGuildsCommands(applicationId, guildsIds) 
   let result = []
   result = guildsIds.map((guildId) => {
     const fullroute = Routes.applicationGuildCommands(applicationId, guildId)
-    return deleteForCommandId(fullroute)
+    return deleteCommand(fullroute)
   })
   result = await Promise.all(result)
   result.map((obj, index) => {
@@ -87,27 +93,5 @@ export async function deleteApplicationGuildsCommands(applicationId, guildsIds) 
 }
 export async function deleteApplicationCommands(applicationId) {
   const fullroute = Routes.applicationCommands(applicationId)
-  return await deleteForCommandId(fullroute)
-}
-// ? refactorizar haciendo un put en un comando vacio y luego eliminarlo(para evitar tantos deletes)
-export async function deleteForCommandId(fullroute) {
-  let result = []
-  let count = 0
-  const query = await rest.get(fullroute)
-  query.map((command) => {
-    const fullrouteCommandId = fullroute + '/' + command.id
-    result.push(
-      rest.delete(fullrouteCommandId).then(
-        (_resolve) => {
-          count++
-          return { name: command.name, ok: 1 }
-        },
-        (_reject) => {
-          return { name: command.name, ok: 0 }
-        }
-      )
-    )
-  })
-  result = await Promise.all(result)
-  return { done: count, total: query.length, result }
+  return await deleteCommand(fullroute)
 }
