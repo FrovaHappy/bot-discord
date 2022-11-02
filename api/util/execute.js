@@ -13,41 +13,41 @@ const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN)
  */
 export async function deleteCommand(fullroute) {
   let status
-  await rest
-    .put(fullroute, { body: [deletingCommands.toJSON()] })
-    .catch((e) => {
-      status = "Delete command: error in the put operation"
-    })
+  await rest.put(fullroute, { body: [deletingCommands.toJSON()] }).catch((e) => {
+    status = 'Delete command: error in the put operation'
+  })
   const commandfodeleting = await rest.get(fullroute).catch((e) => {
-    status = "Delete command: error in the get operation"
+    status = 'Delete command: error in the get operation'
   })
   await Promise.all(
     commandfodeleting.map((command) => {
       const fullrouteCommandId = fullroute + '/' + command.id
       rest.delete(fullrouteCommandId).catch((e) => {
-        status = "Delete command: error in the delete operation"
+        status = 'Delete command: error in the delete operation'
       })
     })
   )
-  return status ?? "command deleted successfully"
+  return status ?? 'command deleted successfully'
 }
 /**
  * Publica en los sevidores privados ej. (serv premium y dev)
  * @param {string[]} guildsIds
- * @param {Array} commands
+ * @param {import('@discordjs/builders').SlashCommandBuilder[]} commands
  * @returns un array de objetos que contiene el guild.id y el estado que a finalizado
  */
 export async function putApplicationGuildsCommands(applicationId, guildsIds, commands) {
   let result = []
+  let commandsNames = []
+  commands.map((command) => commandsNames.push(command.name))
   guildsIds.map((guildId) => {
     const fullroute = Routes.applicationGuildCommands(applicationId, guildId)
     result.push(
       rest.put(fullroute, { body: commands }).then(
         (_resolve) => {
-          return { guildId, done: true, commands }
+          return { guildId, done: true, commandsNames }
         },
         (_reject) => {
-          return { guildId, done: false, commands }
+          return { guildId, done: false, commandsNames }
         }
       )
     )
@@ -60,16 +60,16 @@ export async function putApplicationGuildsCommands(applicationId, guildsIds, com
  * @returns {object} si se resolvio sastifacotiamente
  */
 export async function putApplicationCommands(applicationId, commands) {
-  let commandsName = []
-  commands.map((command) => commandsName.push(command.name))
+  let commandsNames = []
+  commands.map((command) => commandsNames.push(command.name))
   if (commands.length === 0) return false
   const fullroute = Routes.applicationCommands(applicationId)
   const result = await rest.put(fullroute, { body: commands }).then(
     (_resolve) => {
-      return { done: true, commandsName }
+      return { done: true, commandsNames }
     },
     (_reject) => {
-      return { done: false, commandsName }
+      return { done: false, commandsNames }
     }
   )
   return result
