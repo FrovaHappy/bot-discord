@@ -5,7 +5,6 @@ import {
   putApplicationCommands,
   putApplicationGuildsCommands,
   deleteApplicationCommands,
-  deleteCommand,
 } from './util/execute.js'
 
 const applicationId = config.DISCORD_CLIENT_ID
@@ -24,7 +23,6 @@ export async function deployCommands() {
   const commandsGlobal = commandsFiltert.global
   const commandsDeveloper = commandsFiltert.developer
 
-  //deleteCommand(applicationId, '925085954685956156')
   //public commands
   result.servPublic = await putApplicationCommands(applicationId, commandsGlobal)
   if (!result.servPublic.done) {
