@@ -5,7 +5,7 @@ import {
   putApplicationCommands,
   putApplicationGuildsCommands,
   deleteApplicationCommands,
-} from './util/execute.js'
+} from './util/requestDiscordAPI.js'
 
 const applicationId = config.DISCORD_CLIENT_ID
 const guildsIds = config.DISCORD_GUILD_ID
