@@ -1,5 +1,5 @@
 import config from '../config.js'
-import searchCommands from './util/searchCommands.js'
+import searchCommands from './util/commandsList.js'
 import filterCommands from './util/filterCommands.js'
 import {
   putApplicationCommands,
