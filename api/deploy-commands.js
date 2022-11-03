@@ -1,5 +1,5 @@
 import config from '../config.js'
-import searchCommands from './util/commandsList.js'
+import commandsList from './util/commandsList.js'
 import filterCommands from './util/filterCommands.js'
 import {
   putApplicationCommands,
@@ -17,7 +17,7 @@ const servers = {
 
 export async function deployCommands() {
   let result = {}
-  const commands = await searchCommands()
+  const commands = await commandsList.getData()
   const commandsFiltert = filterCommands(servers, commands)
   const commandsPremium = commandsFiltert.premium
   const commandsGlobal = commandsFiltert.global

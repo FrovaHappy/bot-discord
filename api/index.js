@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import config from '../config.js'
-import searchCommands from './util/searchCommands.js'
+import commandsList from './util/commandsList.js'
 import router from './router.js'
 
 const app = express()
@@ -16,9 +16,9 @@ app.use(express.json())
   Este tiene que ser un post que recibe un req.commandsPremiun [] y un req.commands []
 */
 app.use('/deploy', router)
-app.get('/deploy/searchCommands', async (_req, res) => {
+app.get('/deploy/data', async (_req, res) => {
   try {
-    const commands = await searchCommands()
+    const commands = await commandsList.getData()
     res.status(201).json({comands: commands})
   }catch(e) {
     res.status(501).json({message: 'Error searching'})
