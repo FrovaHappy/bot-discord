@@ -14,20 +14,20 @@ const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN)
 async function deleteCommand(fullroute) {
   let status
   await rest.put(fullroute, { body: [deletingCommands.toJSON()] }).catch((e) => {
-    status = 'Delete command: error in the put operation'
+    status = { done: false, message: 'Delete command: error in the put operation' }
   })
   const commandfodeleting = await rest.get(fullroute).catch((e) => {
-    status = 'Delete command: error in the get operation'
+    status = { done: false, message: 'Delete command: error in the get operation' }
   })
   await Promise.all(
     commandfodeleting.map((command) => {
       const fullrouteCommandId = fullroute + '/' + command.id
       rest.delete(fullrouteCommandId).catch((e) => {
-        status = 'Delete command: error in the delete operation'
+        status = { done: false, message: 'Delete command: error in the delete operation' }
       })
     })
   )
-  return status ?? 'command deleted successfully'
+  return status ?? { done: true, message: 'command deleted successfully' }
 }
 /**
  * Publica en los sevidores privados ej. (serv premium y dev)
