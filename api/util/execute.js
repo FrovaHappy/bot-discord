@@ -11,7 +11,7 @@ const rest = new REST({ version: '10' }).setToken(config.DISCORD_TOKEN)
  * @param {string} fullroute route generaded by the Roues Types API
  * @returns An string with the result done successfully or where failed
  */
-export async function deleteCommand(fullroute) {
+async function deleteCommand(fullroute) {
   let status
   await rest.put(fullroute, { body: [deletingCommands.toJSON()] }).catch((e) => {
     status = 'Delete command: error in the put operation'
@@ -55,6 +55,7 @@ export async function putApplicationGuildsCommands(applicationId, guildsIds, com
   return await Promise.all(result)
 }
 /**
+ * request for public server
  * @param {string} applicationId
  * @param {array} commands
  * @returns {object} si se resolvio sastifacotiamente
