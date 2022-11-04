@@ -1,30 +1,30 @@
 export class GetDescription {
-  #dataUser;
-  #dataGuild;
+  #dataUser
+  #dataGuild
   constructor(dataUser, dataGuild) {
-    this.#dataUser = dataUser;
-    this.#dataGuild = dataGuild;
-    this.description = this.#builderDescription();
+    this.#dataUser = dataUser
+    this.#dataGuild = dataGuild
+    this.description = this.#builderDescription()
   }
   #builderDescription() {
     if (this.#dataUser.description) {
       return {
-        type: "user",
+        type: 'user',
         content: this.#dataUser.description,
-      };
+      }
     }
     if (this.#dataGuild.description) {
       return {
-        type: "admin",
+        type: 'admin',
         content: this.#dataGuild.description,
-      };
+      }
     }
     return {
-      type: "default",
+      type: 'default',
       content: `
         ¡Después de una larga espera, llega el momento!
         <user:id> ¿quieres casarte conmigo?
       `,
-    };
+    }
   }
 }

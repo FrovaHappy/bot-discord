@@ -1,30 +1,30 @@
 export class GetTime {
-  #dataUser;
-  #dataGuild;
+  #dataUser
+  #dataGuild
   constructor(dataUser, dataGuild) {
-    this.#dataUser = dataUser;
-    this.#dataGuild = dataGuild;
-    this.time = this.#builderTime();
+    this.#dataUser = dataUser
+    this.#dataGuild = dataGuild
+    this.time = this.#builderTime()
   }
   #builderTime() {
     if (this.#dataUser.hours || this.#dataUser.mins) {
       return {
-        type: "user",
+        type: 'user',
         hours: this.#dataUser.hours,
         mins: this.#dataUser.mins,
-      };
+      }
     }
     if (this.#dataGuild.hours || this.#dataGuild.mins) {
       return {
-        type: "admin",
+        type: 'admin',
         hours: this.#dataGuild.hours,
         mins: this.#dataGuild.mins,
-      };
+      }
     }
     return {
-      type :"default",
+      type: 'default',
       hours: 2,
       mins: 0,
-    };
+    }
   }
 }

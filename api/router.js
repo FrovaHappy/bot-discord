@@ -1,4 +1,4 @@
-import  express from "express"
+import express from 'express'
 // routes
 import start from './routes/start.routes.js'
 

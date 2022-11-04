@@ -26,6 +26,6 @@ function filterCommands(commandsToFilter, slashCommands) {
       .flat()
   })
   servers.developer = developer
-  return servers 
+  return servers
 }
 export default filterCommands

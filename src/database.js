@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import config from "../config.js";
+import mongoose from 'mongoose'
+import config from '../config.js'
 
-(async () => {
+;(async () => {
   try {
-    const db = await mongoose.connect(config.MONGODB_HOST);
-    console.log("Mongodb is connected to", db.connection.host);
+    const db = await mongoose.connect(config.MONGODB_HOST)
+    console.log('Mongodb is connected to', db.connection.host)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-})();
+})()

@@ -19,9 +19,9 @@ app.use('/deploy', router)
 app.get('/deploy/data', async (_req, res) => {
   try {
     const commands = await commandsList.getData()
-    res.status(201).json({comands: commands})
-  }catch(e) {
-    res.status(501).json({message: 'Error searching'})
+    res.status(201).json({ comands: commands })
+  } catch (e) {
+    res.status(501).json({ message: 'Error searching' })
   }
 })
 // listen

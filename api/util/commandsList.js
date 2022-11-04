@@ -1,9 +1,9 @@
 import * as fs from 'fs'
 import { Collection } from 'discord.js'
 
-const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./src/commands').filter((file) => file.endsWith('.js'))
 
-export async function getData(){
+export async function getData() {
   let commandsData = []
   for (const file of commandFiles) {
     const fileContent = (await import(`../../src/commands/${file}`)).default
@@ -11,7 +11,7 @@ export async function getData(){
   }
   return commandsData
 }
-export async function getCollection(){
+export async function getCollection() {
   let collection = new Collection()
   for (const file of commandFiles) {
     const fileContent = (await import(`../../src/commands/${file}`)).default
@@ -21,5 +21,5 @@ export async function getCollection(){
 }
 export default {
   getCollection,
-  getData
+  getData,
 }
