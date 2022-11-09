@@ -4,6 +4,7 @@ import config from '../config.js'
 import commandsList from './util/commandsList.js'
 import router from './router.js'
 
+
 const app = express()
 
 // middlewares
@@ -23,9 +24,6 @@ app.get('/deploy/data', async (_req, res) => {
   } catch (e) {
     res.status(501).json({ message: 'Error searching' })
   }
-})
-app.get('/ip', async (req, res) => {
-  res.json(req.socket.remoteAddress)
 })
 // listen
 
