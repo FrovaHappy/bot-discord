@@ -31,9 +31,8 @@ function defaultSearch(message) {
  */
 export default async function (message) {
   const defaultdata = defaultSearch(message)
-  console.log(defaultdata)
   if (!defaultdata) return
 
   message.reply({ embeds: [thankEmbed(defaultdata, message)] })
-  await createcountdown(defaultdata, message)
+  createcountdown(defaultdata, message)
 }

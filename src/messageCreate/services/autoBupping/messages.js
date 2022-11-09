@@ -6,7 +6,6 @@ import { EmbedBuilder } from 'discord.js'
  */
 const thankEmbed = (data, message) => {
   const timestamps = Math.floor((message.editedTimestamp || message.createdTimestamp) / 1000) + data.relativeTimestamp
-  console.log(timestamps)
   return new EmbedBuilder()
     .setTitle('Gracias por Bumpear')
     .setDescription(`Te avisaremos <t:${timestamps}:R> <3`)
