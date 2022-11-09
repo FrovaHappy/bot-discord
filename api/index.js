@@ -24,6 +24,9 @@ app.get('/deploy/data', async (_req, res) => {
     res.status(501).json({ message: 'Error searching' })
   }
 })
+app.get('/ip', async (req, res) => {
+  res.json({ ip: req.ip })
+})
 // listen
 
 app.listen(config.PORT, () => {

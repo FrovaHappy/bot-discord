@@ -3,7 +3,7 @@ import 'dotenv/config'
 
 const token = process.env.DISCORD_TOKEN || ''
 const clientId = process.env.DISCORD_CLIENT_ID || ''
-const urlAPI = process.env.URL_API || 'localhost:3000/'
+const urlAPI = process.env.URL_API || 'http://localhost:5000/'
 const guildsDevIds = process.env.DISCORD_GUILDS_DEV_IDS ?? ''
 const port = process.env.PORT || 5000
 export let timeIds = new Map()
