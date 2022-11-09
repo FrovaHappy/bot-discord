@@ -25,7 +25,7 @@ app.get('/deploy/data', async (_req, res) => {
   }
 })
 app.get('/ip', async (req, res) => {
-  res.json({ ip: req.ip })
+  res.json(req.socket.remoteAddress)
 })
 // listen
 
