@@ -10,7 +10,7 @@ const createcountdown = async (data, message) => {
   const query = await findAutobupping({ guildId: message.guildId ?? '' })
   setTimeout(() => {
     if (!query) return message.channel.send({ content: toBuppedWithoutRoleIdContent, embeds: [toBuppedEmbed(data)] })
-    message.channel.send({ content: toBuppedWithRoleIdContent, embeds: [toBuppedEmbed(data)] })
+    message.channel.send({ content: toBuppedWithRoleIdContent(query), embeds: [toBuppedEmbed(data)] })
   }, data.relativeTimestamp * 1000)
 }
 
