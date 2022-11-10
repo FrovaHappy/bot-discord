@@ -10,12 +10,7 @@ import {
 const applicationId = config.DISCORD_CLIENT_ID
 const guildsIds = config.DISCORD_GUILD_ID
 
-const servers = {
-  premium: [],
-  global: ['countdown'],
-}
-
-export async function deployCommands() {
+export async function deployCommands(servers) {
   let result = {}
   const commands = await commandsList.getData()
   const commandsFiltert = filterCommands(servers, commands)
