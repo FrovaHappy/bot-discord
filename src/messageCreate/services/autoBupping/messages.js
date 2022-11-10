@@ -17,5 +17,8 @@ const toBuppedEmbed = (data) => {
     .setDescription(`ejecuta \`\`/${data.commandName}\`\` :3`)
     .setColor(0xff0000)
 }
-
-export { thankEmbed, toBuppedEmbed }
+const toBuppedWithRoleIdContent = (data) => {
+  return `<@&${data.roleId}>`
+}
+const toBuppedWithoutRoleIdContent = 'ejecuta ``/set-autobupping`` para agregar el role'
+export { thankEmbed, toBuppedEmbed, toBuppedWithRoleIdContent, toBuppedWithoutRoleIdContent }
