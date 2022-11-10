@@ -4,6 +4,7 @@ async function updateAutobupping(filter, update) {
   return await autobuppingModel
     .findOneAndUpdate(filter, update, {
       upsert: true,
+      returnDocument: 'after',
     })
     .catch((e) => {
       throw new Error('error updating autobupping')
