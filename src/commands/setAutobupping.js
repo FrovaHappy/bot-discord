@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js'
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js'
 import { updateRole } from './services/setAutobupping/updateRole.js'
 
 const slashCommand = new SlashCommandBuilder()
@@ -7,6 +7,8 @@ const slashCommand = new SlashCommandBuilder()
   .addMentionableOption((option) =>
     option.setName('role').setDescription('Configura el role que se usara para mencinar.').setRequired(true)
   )
+  .setDMPermission(false)
+  .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 /**
  * @param {import('discord.js').ChatInputCommandInteraction} interaction
  */
